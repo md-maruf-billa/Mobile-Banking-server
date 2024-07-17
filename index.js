@@ -39,7 +39,7 @@ async function run() {
             const data = req.body;
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(data?.password, salt);
-            const userInfo = { userName: data.name, userEmail: data.email, userNumber: data.phone, accountType: data.account_type, password: hash };
+            const userInfo = { userName: data.name, userEmail: data.email, userNumber: data.phone, accountType: data.account_type, password: hash , admin_approval: "pending"};
 
 
             const result = await users.insertOne(userInfo);
@@ -65,6 +65,7 @@ async function run() {
             }
 
             const correctPassword = bcrypt.compareSync(userInfo.password, result.password);
+            
 
             if (!correctPassword) {
                 return res.send({ message: "Invalid password" });
